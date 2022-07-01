@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="static/jquery.min.js"></script>
+
+<title>Review side</title>
+<style>
+  table{
+    width:85vw;
+    float:"left";
+    margin: 2vw
+  }
+  #sent{
+    width: 40vw;
+  }
+  #id{
+    display: none;
+  }
+  #sumbmitbtn{
+    height: 100vh; /* Full-height: remove this if you want "auto" height */
+    width: 13vw; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 5vw;
+    text-align: center;
+    color: white;
+  }
+  #sumbmitbtn button{
+    height: 5vh;
+    margin-left:1vw;
+    color: black
+  }
+  p{
+    font-size: large;
+  }
+
+  table { 
+                border-collapse: collapse; 
+  } 
+  th { 
+      background-color:black; 
+      Color:white; 
+  } 
+  th, td { 
+      width:150px; 
+      text-align:center; 
+      border:1px solid black; 
+      padding:5px 
+    
+  }
+
+</style>
+</head>
+
+<body>
+  
+  <table>
+    <tr>
+      <th id="id">sent_id</th>
+      <th id="sent">Sentlike</th>
+      <th>korrekt_annotering</th>
+      <th>udtræk</th>
+      <th>Korrekt</th>
+      <th>Tvetydig</th>
+      <th>Ikke korrekt</th>
+    </tr>
+    {% for i, row in enumerated_sentlikes %}
+    <tr>
+      <td id="id">{{row[0]}}</td>
+      <td id="sent">{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td ><input type="checkbox" id="korrekt{{i}}" class="check{{i}}"></td>
+      <td ><input type="checkbox" id="tvetydig{{i}}" class="check{{i}}"></td>
+      <td ><input type="checkbox" id="ikke_korrekt{{i}}" class="check{{i}}"></td>
+    </tr>
+    {% endfor %}
+    <div id="sumbmitbtn">
+      <button>Submit review</button>
+      <br><br>
+      Antal kontrolerede:<br> 
+      <p id="n_kontrolerede">0</p>
+      Antal sentlikes i alt:<br> 
+      <p>{{total}}</p>
+    </div>
+  </table> 
+  <!--
+      Her skal der indsættes en tabel, der viser hver annoteret sætning,
+      samt den kattegori, den er blevet annoteret til, og det tekst/tal, 
+      der skal udtrækkes.
+      Herudoer skal der være en check-box, der muliggører en andenpart at
+      validere og reviewe at annotringer er korrekte. 
+  -->  
+
+  <script>
+    $(":checkbox").change(function(){
+      var check_class = $(this).attr("class");
+      $('.' + check_class).not(this).prop('checked', false);
+
+      var n_kontrolerede = $(":checkbox:checked").length;
+      $('#n_kontrolerede').text(n_kontrolerede)
+    })
+
+  </script>
+
+</body>
+
+</html>
