@@ -97,7 +97,7 @@
   </div>
   
   {% if sent != None %}
-    <h3>Sætning med id: {{sent_id}}</h3>
+    <h3>Sætning med id: {{paragraph_id}}</h3>
     <div>
       {% for word in sent.split() %}
         <p data-chosen="off">{{word}} </p>
@@ -121,7 +121,7 @@
       </div>
     <br><br>
   {% else %}
-    <p data-chosen="off">INGEN UANOTEREDE SÆTNINGER I TABEL</p>
+    <p data-chosen="off">LOOKS LIKE YOU ANNOTATED ALL THE PARAGRAPHS IN THE DATABASE</p>
   {% endif %}
 
   <script>
@@ -134,9 +134,9 @@
     $("#forward").on("click", function() {
       console.log("forward BUTTON PRESSED");
       var action =  "forward";
-      var sent_id = {{sent_id}};
+      var paragraph_id = {{paragraph_id}};
       var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
-      if (history.slice(-1)[0]==sent_id || !history.includes(sent_id)){
+      if (history.slice(-1)[0]==paragraph_id || !history.includes(paragraph_id)){
         console.log("Already at top of history")
         $("#forward").fadeOut(500);
         $("#forward").fadeIn(500);
@@ -147,7 +147,7 @@
           type: "POST",
           contentType: "application/json;charset=utf-8",
           traditional: "true",
-          data: JSON.stringify({action, sent_id}),
+          data: JSON.stringify({action, paragraph_id}),
           dataType: "json",
           success: function(resp){
             console.log("SUCCES")
@@ -172,9 +172,9 @@
     $("#back").on("click", function() {
       console.log("back BUTTON PRESSED")
       var action =  "back";
-      var sent_id = {{sent_id}};
+      var paragraph_id = {{paragraph_id}};
       var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
-      if (history[0] == sent_id || history[0] == 0){
+      if (history[0] == paragraph_id || history[0] == 0){
         console.log("Already at end of history")
         $("#back").fadeOut(500);
         $("#back").fadeIn(500);
@@ -185,7 +185,7 @@
           type: "POST",
           contentType: "application/json;charset=utf-8",
           traditional: "true",
-          data: JSON.stringify({action, sent_id}),
+          data: JSON.stringify({action, paragraph_id}),
           dataType: "json",
           success: function(resp){
             console.log("SUCCES")
@@ -214,13 +214,13 @@
       var annotering_text = $(".pchosen").text();
       var annotation = $(this).text();
       var action = "annotate";
-      var sent_id = {{sent_id}};
+      var paragraph_id = {{paragraph_id}};
       console.log(annotering_text, annotation, action);
       $.ajax({
         type: "POST",
         contentType: "application/json;charset=utf-8",
         traditional: "true",
-        data: JSON.stringify({annotering_text, annotation, action, sent_id}),
+        data: JSON.stringify({annotering_text, annotation, action, paragraph_id}),
         dataType: "json",
         success: function(){
           console.log("SUCCES")

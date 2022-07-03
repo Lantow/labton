@@ -47,25 +47,25 @@ def fetch_from_db(c, columns, table, conditions=None, one=False):
         FROM {table}
         {conditions_sql};
     """)
-    out = c.fetchall() if not one else c.fetchone()
+    out = self.conn.fetchall() if not one else self.curr.fetchone()
     return(out) if out else (None, None)
 
 @create_connection
 def add_annotation(c, values, table):
     c.execute(f"""
         UPDATE {table} SET 
-                    korrekt_annotering = ?, 
-                    hvem_annoterede = ?, 
-                    udtræk = ?
-        WHERE sent_id == ?;
+                    correct_annotation = ?, 
+                    who_annotated = ?, 
+                    extract = ?
+        WHERE paragraph_id == ?;
     """, values)
 
 # ==================== HELPER FUNCS =======================
-def update_history(session, sent_id):
+def update_history(session, paragraph_id):
     #Hvis det ikke er første annotering i sessionen
     if "annotation_history" in session:
         history = session["annotation_history"]
-        current_id = sent_id #post["sent_id"]
+        current_id = paragraph_id #post["paragraph_id"]
         #Hvis annoterede sætning allerede er blevet annoteret
         if current_id not in history:
             history += [current_id]
@@ -80,13 +80,13 @@ def update_history(session, sent_id):
     print(session["annotation_history"])
     return session
 
-def fecth_new_sent_id(session, post, move):
+def fecth_new_paragraph_id(session, post, move):
     # forwards_idx = idx+1 if idx else null (there is no newer)
     # end_idx = -1 
     # back = idx-1 if idx else Null (there are no older)
     # begining = 0
     history = session["annotation_history"]
-    current_id = post["sent_id"]
+    current_id = post["paragraph_id"]
     session["history_dive"] = True
     if history:
         # print(history)
@@ -108,9 +108,9 @@ def fecth_new_sent_id(session, post, move):
         print(history)
         print("INDEX")
         print(idx)
-        new_sent_id = history[idx]
-        print(new_sent_id)
-        return(new_sent_id)
+        new_paragraph_id = history[idx]
+        print(new_paragraph_id)
+        return(new_paragraph_id)
     else: 
         print("_"*70)
         print("THERE IS NO HISTORY")
@@ -133,7 +133,7 @@ def annotering():
                 if post["action"] == "annotate":
                     values = [post["annotation"],session["username"], 
                               post["annotering_text"].strip() if post["annotering_text"] else None,
-                              post["sent_id"]]
+                              post["paragraph_id"]]
                     add_annotation(values, "annotations")
                     print(session)
 
@@ -149,19 +149,19 @@ def annotering():
 
                 elif post["action"] in ["back", "begining", "forward", "end"]:
                     print("BUTTON PRESSED")
-                    sent_id = fecth_new_sent_id(session, post, post["action"])
+                    paragraph_id = fecth_new_paragraph_id(session, post, post["action"])
                     history_dive = True
 
                 else:
                     pass
 
-            #Hvis session stadig er aktiv og der ikke er er defieneret et sent_id 
+            #Hvis session stadig er aktiv og der ikke er er defieneret et paragraph_id 
             # (dette sker hvis man har lukket browser og er logget ind igen)
-            #Så hent sidste entry i annotation_history som sent_id
-            try: sent_id
+            #Så hent sidste entry i annotation_history som paragraph_id
+            try: paragraph_id
             except NameError: 
                 if "history_dive" in session: 
-                    sent_id = session["annotation_history"][-1]
+                    paragraph_id = session["annotation_history"][-1]
                 else: pass
             
             dive_check = session["history_dive"] if "history_dive" in session else False
@@ -171,24 +171,26 @@ def annotering():
             if "history_dive" in session and session["history_dive"] is True:
                 print("GOING TO THE PAST")
                 
-                sentlike, sent_id, pdf_name, page_nr = fetch_from_db(["sentlike", "sent_id", "pdf_name", "page_nr"], "annotations", 
-                                                            f"sent_id = {sent_id}" , one=True)
-                if session["annotation_history"][-1] == sent_id:
+                paragraph_text, paragraph_id, document_name, page_nr = fetch_from_db(["paragraph_text", "paragraph_id", "document_name", "page_nr"], "annotations", 
+                                                            f"paragraph_id = {paragraph_id}" , one=True)
+                if session["annotation_history"][-1] == paragraph_id:
                     session["history_dive"] = False
                 print(f"ARE WE STILL DIVING?? {session['history_dive']}")
             
             else:
                 print("STAYING IN THE FUTURE")
-                sentlike, sent_id, pdf_name, page_nr = fetch_from_db(["sentlike", "sent_id", "pdf_name", "page_nr"], "annotations", 
-                                                            "korrekt_annotering IS null and regex_annotering = 1" , one=True)
+                paragraph_text, paragraph_id, document_name, page_nr = fetch_from_db(["paragraph_text", 
+                                                            "paragraph_id", "document_name", "page_nr"], 
+                                                            "annotations", "correct_annotation IS null" , 
+                                                            one=True)
             print("SENT SUPPOSED TO BE ON SCREEN")
-            print(sentlike)
-            update_history(session, sent_id)
+            print(paragraph_text)
+            update_history(session, paragraph_id)
             return render_template("annotering.html", 
                                     session=session,
-                                    sent=sentlike,
-                                    sent_id=sent_id,
-                                    png_name= f"{pdf_name}000{page_nr}-{page_nr}.png",
+                                    sent=paragraph_text,
+                                    paragraph_id=paragraph_id,
+                                    png_name= f"{document_name}000{page_nr}-{page_nr}.png",
                                     classes=["UGELØN", "ÅRSLØN", "MÅNEDSLØN", "TIMELØN", "SLUTDATO", 
                                             "STARTDATO", "CVR", "TELEFONNR", "INTET", "TVETYDIG"])
         else:
@@ -237,11 +239,11 @@ def review():
     # ELLER VED AT HAVE EN ENDELIG SIDE, HVOR COMMITS KAN LAVES TIL DEN 
     # ENDELIGE DATA BASE
 
-    sentlikes = fetch_from_db(["sent_id", "sentlike", "korrekt_annotering", "udtræk"], "annotations",
-                                "korrekt_annotering NOT NULL AND hvem_verificerede IS NULL " +\
-                                f"AND hvem_annoterede <> '{session['username']}'", one=False)
+    paragraph_texts = fetch_from_db(["paragraph_id", "paragraph_text", "correct_annotation", "extract"], "annotations",
+                                "correct_annotation NOT NULL AND who_verified IS NULL " +\
+                                f"AND who_annotated <> '{session['username']}'", one=False)
 
-    return render_template("review.html", enumerated_sentlikes = enumerate(sentlikes), total=len(sentlikes))
+    return render_template("review.html", enumerated_paragraph_texts = enumerate(paragraph_texts), total=len(paragraph_texts))
 
 
 @app.route('/uploads/<path:filename>')

@@ -62,15 +62,15 @@
   
   <table>
     <tr>
-      <th id="id">sent_id</th>
-      <th id="sent">Sentlike</th>
-      <th>korrekt_annotering</th>
-      <th>udtræk</th>
+      <th id="id">paragraph_id</th>
+      <th id="sent">paragraph_text</th>
+      <th>correct_annotation</th>
+      <th>extract</th>
       <th>Korrekt</th>
       <th>Tvetydig</th>
       <th>Ikke korrekt</th>
     </tr>
-    {% for i, row in enumerated_sentlikes %}
+    {% for i, row in enumerated_paragraph_texts %}
     <tr>
       <td id="id">{{row[0]}}</td>
       <td id="sent">{{row[1]}}</td>
@@ -86,14 +86,14 @@
       <br><br>
       Antal kontrolerede:<br> 
       <p id="n_kontrolerede">0</p>
-      Antal sentlikes i alt:<br> 
+      Antal paragraph_texts i alt:<br> 
       <p>{{total}}</p>
     </div>
   </table> 
   <!--
       Her skal der indsættes en tabel, der viser hver annoteret sætning,
       samt den kattegori, den er blevet annoteret til, og det tekst/tal, 
-      der skal udtrækkes.
+      der skal extractkes.
       Herudoer skal der være en check-box, der muliggører en andenpart at
       validere og reviewe at annotringer er korrekte. 
   -->  

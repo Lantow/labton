@@ -1,21 +1,16 @@
 import sqlite3
-import signal
-import sys
+import os
 
 class SQliteConnection(object):
     """automatic open and close"""    
     def __init__(self):
         self.conn = None 
         self.curr = None
-
-    def _handle_interrupt(self, signum, frame):
-        sys.exit("Aborted by KeyboardInterrupt") 
+        self.db_file_path = os.getenv('SQLITE_CONN_STR')
 
     def __enter__(self):
-        signal.signal(signal.SIGINT, self._handle_interrupt)
-        signal.signal(signal.SIGTERM, self._handle_interrupt)
         print("Opening connection")
-        self.conn = sqlite3.connect(getenv('SQLITE_CONN_STR'))
+        self.conn = sqlite3.connect(self.db_file_path)
         self.curr = self.conn.cursor()
         return self    
         

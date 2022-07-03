@@ -19,11 +19,11 @@ def with_sqlite_conn(f):
             return f(*args, conn=conn_obj.conn, curr=conn_obj.curr, **kwds)
     return wrapper
 
-def update_history(session, sent_id):
+def update_history(session, paragraph_id):
     #Hvis det ikke er første annotering i sessionen
     if "annotation_history" in session:
         history = session["annotation_history"]
-        current_id = sent_id #post["sent_id"]
+        current_id = paragraph_id #post["paragraph_id"]
         #Hvis annoterede sætning allerede er blevet annoteret
         if current_id not in history:
             history += [current_id]
@@ -38,13 +38,13 @@ def update_history(session, sent_id):
     print(session["annotation_history"])
     return session
 
-def fecth_new_sent_id(session, post, move):
+def fecth_new_paragraph_id(session, post, move):
     # forwards_idx = idx+1 if idx else null (there is no newer)
     # end_idx = -1 
     # back = idx-1 if idx else Null (there are no older)
     # begining = 0
     history = session["annotation_history"]
-    current_id = post["sent_id"]
+    current_id = post["paragraph_id"]
     session["history_dive"] = True
     if history:
         # print(history)
@@ -66,9 +66,9 @@ def fecth_new_sent_id(session, post, move):
         print(history)
         print("INDEX")
         print(idx)
-        new_sent_id = history[idx]
-        print(new_sent_id)
-        return(new_sent_id)
+        new_paragraph_id = history[idx]
+        print(new_paragraph_id)
+        return(new_paragraph_id)
     else: 
         print("_"*70)
         print("THERE IS NO HISTORY")
