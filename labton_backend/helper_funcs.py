@@ -1,11 +1,11 @@
 from functools import wraps
-from labton_backend.data_handler import SQliteConnection
+from labton_backend.connection_handler import SQliteConnection
 
 def with_sqlite_conn(f):
     """
     Wrapper to wrap around function that executes 
     SQLite code on the database whos path is defined 
-    in the global variable db_file_path    
+    in the system variable SQLITE_CONN_STR (aka. db_file_path)
 
     Args:
         f (function): function that excecutes to SQL-db
