@@ -46,7 +46,7 @@ def logout():
     with ActionHandler() as AH:
         return(AH.action_logout())
 
-@app.route('/review')
+@app.route('/review', methods=['GET', 'POST'])
 def review():
     with ActionHandler() as AH:
         return(AH.action_flow_review())

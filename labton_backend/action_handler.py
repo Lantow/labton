@@ -19,12 +19,14 @@ class ActionHandler(DatabaseHandler):
                         values = [post["annotation"],session["username"], 
                                 post["annotering_text"].strip() if post["annotering_text"] else None,
                                 post["paragraph_id"]]
-                        add_annotation(values, "annotations")
+                        self.add_annotation(values, "annotations")
                         print(session)
 
                     elif post["action"] == "review":
                         print("||"*70)
                         print("THIS IS REVIEW")
+                        #https://stackoverflow.com/questions/15473626/make-a-post-request-while-redirecting-in-flask/15480983#15480983
+                        print(url_for('review'))
                         return redirect(url_for('review'))
 
                     elif post["action"] == "logout":
@@ -86,6 +88,7 @@ class ActionHandler(DatabaseHandler):
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
+            #TODO: implement login here
             if all([username, password]): #authenticate(str(username), str(password))
                 session['username'] = request.form['username']
                 return redirect(url_for('annotering'))
@@ -106,7 +109,7 @@ class ActionHandler(DatabaseHandler):
                     <h2>Forkert kode indtastet - <br> Hændelsen er logført<h2>
                     <form action="/login">
                             <input type="submit" value="Prøv igen" />
-                    </form>
+                    </form> 
                 """
                 'Invalid username/password'
         else:
@@ -120,7 +123,6 @@ class ActionHandler(DatabaseHandler):
     def action_flow_review(self):
         if 'username' in session:
             print("GOING TO REVIEW")
-
             if request.method == 'POST':
                 post = request.get_json()
                 print("Review POST:")
@@ -129,8 +131,8 @@ class ActionHandler(DatabaseHandler):
                 if post["action"] == "submit":
                     paragraph_ids = post["paragraph_ids"] 
                     who_verified = post["who_verified"]
-                    verificationer = post["verificationer"]
-                    for values in zip(who_verified, verificationer, paragraph_ids):
+                    verifications = post["verifications"]
+                    for values in zip(who_verified, verifications, paragraph_ids):
                         self.verify_annotation(values, "annotations")
                         print(values)
 

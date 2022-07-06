@@ -255,6 +255,7 @@
     $("#review").on("click", function() {
       if (confirm("Gem annoteringer og gå til REVIEW side?")){
       var action = "review"
+      window.location.replace(window.location.origin.concat("/review"))
       $.ajax({
           type: "POST",
           contentType: "application/json;charset=utf-8",
