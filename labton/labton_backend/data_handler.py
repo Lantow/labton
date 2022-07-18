@@ -1,10 +1,10 @@
-from labton_backend.connection_handler import SQliteConnection
+from labton.labton_backend.connection_handler import SQliteConnection
 import pandas as pd
 
 class DatabaseHandler(SQliteConnection):
     def __init__(self):
         super().__init__()
-        self.path_csv = "data/csv_text/Test_project.csv"
+        self.path_csv = "labton/data/csv_text/Test_project.csv"
         self.csv_sep = r"§"
         
     def create_database(self):

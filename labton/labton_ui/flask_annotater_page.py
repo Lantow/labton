@@ -1,5 +1,5 @@
 from flask import Flask, send_from_directory
-from labton_backend.action_handler import ActionHandler
+from labton.labton_backend.action_handler import ActionHandler
 
 from datetime import timedelta
 import sys
@@ -11,8 +11,8 @@ project_name = "Test_project"
 
 ##########################################
 
-db_path = Path(f"data/{project_name}.db")
-png_path = Path("data/png_docs")
+db_path = Path(f"labton/data/{project_name}.db")
+png_path = Path("labton/data/png_docs")
 
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=2)
@@ -27,7 +27,7 @@ os.environ["SQLITE_CONN_STR"] = str(db_file_path)
 print(db_file_path, file=sys.stderr)
 
 if not os.path.exists(db_file_path):
-    from labton_backend.data_handler import DatabaseHandler
+    from labton.labton_backend.data_handler import DatabaseHandler
     with DatabaseHandler() as DH:
         DH.create_database()
 

@@ -1,0 +1,13 @@
+Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
+ERROR: could not open HSTS store at '/home/golisto/.wget-hsts'. HSTS will be disabled.
+--2022-07-06 19:59:41--  https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F50000%2Fnahled%2Fhighlighter-marker-pen-pink.jpg
+Resolving external-content.duckduckgo.com (external-content.duckduckgo.com)... 52.142.125.222
+Connecting to external-content.duckduckgo.com (external-content.duckduckgo.com)|52.142.125.222|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [image/jpeg]
+Saving to: ‘index.html?u=https:%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F50000%2Fnahled%2Fhighlighter-marker-pen-pink.jpg’
+
+         index.htm     [<=>            ]       0  --.-KB/s               index.html?u=https     [ <=>           ]  20.95K  --.-KB/s    in 0s      
+
+2022-07-06 19:59:42 (96.6 MB/s) - ‘index.html?u=https:%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F50000%2Fnahled%2Fhighlighter-marker-pen-pink.jpg’ saved [21450]
+

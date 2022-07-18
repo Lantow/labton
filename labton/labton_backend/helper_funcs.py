@@ -1,5 +1,5 @@
 from functools import wraps
-from labton_backend.connection_handler import SQliteConnection
+from labton.labton_backend.connection_handler import SQliteConnection
 
 def with_sqlite_conn(f):
     """

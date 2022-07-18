@@ -1,5 +1,5 @@
-from labton_backend.data_handler import DatabaseHandler
-from labton_backend.helper_funcs import update_history, fecth_new_paragraph_id
+from labton.labton_backend.data_handler import DatabaseHandler
+from labton.labton_backend.helper_funcs import update_history, fecth_new_paragraph_id
 from flask import session, render_template, request, redirect, url_for, jsonify, send_from_directory, abort
 
 class ActionHandler(DatabaseHandler):
@@ -79,8 +79,8 @@ class ActionHandler(DatabaseHandler):
                                         sent=paragraph_text,
                                         paragraph_id=paragraph_id,
                                         png_name= f"{document_name}000{page_nr}-{page_nr}.png",
-                                        classes=["UGELØN", "ÅRSLØN", "MÅNEDSLØN", "TIMELØN", "SLUTDATO", 
-                                                "STARTDATO", "CVR", "TELEFONNR", "INTET", "TVETYDIG"])
+                                        #TODO: change classes so they are in yaml file
+                                        classes=["Positive", "Negative", "Neutral", "Paradox"])
         else:
             return redirect(url_for('login'))
 
@@ -89,7 +89,7 @@ class ActionHandler(DatabaseHandler):
             username = request.form['username']
             password = request.form['password']
             #TODO: implement login here
-            if all([username, password]): #authenticate(str(username), str(password))
+            if username: #authenticate(str(username), str(password))
                 session['username'] = request.form['username']
                 return redirect(url_for('annotering'))
             else:

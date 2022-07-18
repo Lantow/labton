@@ -70,16 +70,16 @@
   </style>
   <script src="static/jquery.min.js"></script>
 
-  <title>Side til annotering af sætniger</title>
-  <button id="logout">Gem annoteringer <br> og Log ud</button>
-  <button id="review">Gem annoteringer <br> og Gå til review siden</button>
-  <h3>Du er loget ind som {{session["username"]}}</h3>  
-  <h3>{{session["annotation_history"]}}</h3>
+  <title>Annotation main page</title>
+  <button id="logout">Save annotations <br> and log out!</button>
+  <button id="review">Save annotations <br> and go to review page</button>
+  <h3>You are annotating as: {{session["username"]}}</h3>  
+  <h100>Annotation history: {{session["annotation_history"]}}</h100>
 </head>
 <body>
 
   <div class="forwards">
-    <button id="forward" title="Frem">
+    <button id="forward" title="Forward">
       <span class="glyphicon glyphicon-step-forward">
     </button>
     <button id="end" title="Foreste" style="display: none;">
@@ -97,7 +97,7 @@
   </div>
   
   {% if sent != None %}
-    <h3>Sætning med id: {{paragraph_id}}</h3>
+    <h3>This paragraph has ID: {{paragraph_id}}</h3>
     <div>
       {% for word in sent.split() %}
         <p data-chosen="off">{{word}} </p>
@@ -137,7 +137,7 @@
       var paragraph_id = {{paragraph_id}};
       var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
       if (history.slice(-1)[0]==paragraph_id || !history.includes(paragraph_id)){
-        console.log("Already at top of history")
+        console.log("Already at top of history");
         $("#forward").fadeOut(500);
         $("#forward").fadeIn(500);
         $("#forward").fadeOut(300);
@@ -151,18 +151,15 @@
           dataType: "json",
           success: function(resp){
             console.log("SUCCES")
-            window.location.replace(window.location.origin.concat("/review"))
-            // location.reload(false)
           }, 
           error: function(xmlHttpRequest, textStatus, errorThrown){
-            console.log("FAIL")
-            console.log("xmlHttpRequest")
-            console.log(xmlHttpRequest)
-            console.log("textStatus")
-            console.log(textStatus)
-            console.log("errorThrown")
-            console.log(errorThrown)
-            window.location.replace(window.location.origin.concat("/review"))
+            console.log("FAIL");
+            console.log("xmlHttpRequest");
+            console.log(xmlHttpRequest);
+            console.log("textStatus");
+            console.log(textStatus);
+            console.log("errorThrown");
+            console.log(errorThrown);
           }    
         });
       }
@@ -170,12 +167,14 @@
     });
 
     $("#back").on("click", function() {
-      console.log("back BUTTON PRESSED")
+      console.log("back BUTTON PRESSED");
       var action =  "back";
       var paragraph_id = {{paragraph_id}};
       var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
-      if (history[0] == paragraph_id || history[0] == 0){
-        console.log("Already at end of history")
+      if (history[0] == paragraph_id){
+        console.log(history[0]);
+        console.log(paragraph_id);
+        console.log("Already at end of history");
         $("#back").fadeOut(500);
         $("#back").fadeIn(500);
         $("#back").fadeOut(300);
@@ -233,7 +232,7 @@
       $(window).scrollTop(0)
     });
     $("#logout").on("click", function() {
-      if (confirm("Gem annoteringer og LOG UD?")){
+      if (confirm("Save annotation and LOG OUT?")){
       var action = "logout"
       $.ajax({
         type: "POST",
@@ -253,7 +252,7 @@
       $(window).scrollTop(0)
     });
     $("#review").on("click", function() {
-      if (confirm("Gem annoteringer og gå til REVIEW side?")){
+      if (confirm("Save annotations and GO TO REVIEW PAGE?")){
       var action = "review"
       window.location.replace(window.location.origin.concat("/review"))
       $.ajax({
