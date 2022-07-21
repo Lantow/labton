@@ -2,3 +2,4 @@ flask
 simplepam
 flask-login
 pandas
+pyyaml

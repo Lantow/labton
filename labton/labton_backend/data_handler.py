@@ -67,5 +67,3 @@ class DatabaseHandler(SQliteConnection):
                     verification = ? 
         WHERE paragraph_id == ?;
         """, values)
-    
-    

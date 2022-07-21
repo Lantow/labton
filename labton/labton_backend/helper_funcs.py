@@ -5,7 +5,7 @@ def with_sqlite_conn(f):
     """
     Wrapper to wrap around function that executes 
     SQLite code on the database whos path is defined 
-    in the system variable SQLITE_CONN_STR (aka. db_file_path)
+    in the app.config dict as sqlite_con_str (aka. db_file_path)
 
     Args:
         f (function): function that excecutes to SQL-db

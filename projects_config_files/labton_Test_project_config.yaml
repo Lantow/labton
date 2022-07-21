@@ -1,0 +1,10 @@
+- classes:
+  - Positive
+  - Negative
+  - Neutral
+  - Paradox
+  data_source: labton/data/csv_text/Test_project.csv
+  host: 0.0.0.0
+  path_experiment: ''
+  port: 8080
+  project_name: Test_project
