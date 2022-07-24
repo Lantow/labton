@@ -1,0 +1,294 @@
+  
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style type="text/css">
+      body {
+        text-align: center;
+        background-size: 100%;
+        margin-right: 21vw;
+      }
+      h3 {
+        color: black;
+        font-family: "Courier New";
+      }
+      p {
+        display: inline-block;
+        margin-right: 15px;
+        font-family: "Times New Roman";
+        font-size: 2vw;
+        cursor: pointer
+      }
+      .pchosen {
+        text-shadow: 4px 4px teal;
+      }
+      .showimage{
+        /* set to None for toggle functionality */
+        /* OBS need to keep value as a session to set acros itterations */
+        display: inline ;
+      }
+      .btn_category{
+        font-size: 3vw;
+        margin-top: 0.5vh;
+        /* width: 10vw; */
+        /* height: 10vh; */
+        /* margin: 5vw; */
+      }
+      .btn_category:hover{
+        box-shadow: 40px -4px teal;
+      }
+      .sidebox{
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 20vw; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        right: 0;
+        background-color: #111; /* Black */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 20px;  
+      }
+      img{
+        width: 40vw;
+      }
+      .forwards{
+        float: right;
+      }
+      .backwards{
+        float: left;
+      }
+      #logout{
+        float:left;
+      }
+      #review{
+        float:right;
+      }
+
+  </style>
+  <script src="static/jquery.min.js"></script>
+
+  <title>Annotation main page</title>
+  <button id="logout">Save annotations <br> and log out!</button>
+  <button id="review">Save annotations <br> and go to review page</button>
+  <h3>You are annotating as: {{session["username"]}}</h3>  
+  <h100>Annotation history: {{session["annotation_history"]}}</h100>
+</head>
+<body>
+
+  <div class="forwards">
+    <button id="forward" title="Forward">
+      <span class="glyphicon glyphicon-step-forward">
+    </button>
+    <button id="end" title="Foreste" style="display: none;">
+      <span class="glyphicon glyphicon-fast-forward"></span>
+    </button>
+  </div>
+
+  <div class="backwards">
+    <button id="begining" title="Første" style="display: none;">
+      <span class="glyphicon glyphicon-fast-backward">        
+    </button>
+    <button id="back", title="Tilbage">
+      <span class="glyphicon glyphicon-step-backward">
+    </button>
+  </div>
+  
+  {% if sent != None %}
+    <h3>This paragraph has ID: {{paragraph_id}}</h3>
+    <div>
+      {% for word in sent.split() %}
+        <p data-chosen="off">{{word}} </p>
+      {% endfor %}
+    </div>
+
+    <div>________________________________________________</div>
+    <br><br>
+    <div class="img_pdf">
+      <img src="{{ url_for('download_file', filename=png_name)}}" id="img" 
+          class="showimage" alt="PDF-visning kunne ikke findes for denne pdf">
+      <div style="background-color: #111;height: 1vw;"></div>
+    </div>
+    <div>________________________________________________</div>
+    <br><br>
+      <div class="sidebox">
+        {% for class in classes %}
+          <button class="btn_category" type="{{class}}", onclick>{{class}}</button>
+          <br>
+        {% endfor %}
+      </div>
+    <br><br>
+  {% else %}
+    <p data-chosen="off">LOOKS LIKE YOU ANNOTATED ALL THE PARAGRAPHS IN THE DATABASE</p>
+  {% endif %}
+
+  <script>
+    $("p").on('click', function() {
+      $(this).toggleClass('pchosen');
+    });
+    $(".img_pdf").on('click', function() {
+      $("#img").toggleClass('showimage');
+    });
+    $("#forward").on("click", function() {
+      console.log("forward BUTTON PRESSED");
+      var action =  "forward";
+      var paragraph_id = {{paragraph_id}};
+      var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
+      if (history.slice(-1)[0]==paragraph_id || !history.includes(paragraph_id)){
+        console.log("Already at top of history");
+        $("#forward").fadeOut(500);
+        $("#forward").fadeIn(500);
+        $("#forward").fadeOut(300);
+        $("#forward").fadeIn(300);
+      } else{
+        $.ajax({
+          type: "POST",
+          contentType: "application/json;charset=utf-8",
+          traditional: "true",
+          data: JSON.stringify({action, paragraph_id}),
+          dataType: "json",
+          success: function(resp){
+            console.log("SUCCES")
+          }, 
+          error: function(xmlHttpRequest, textStatus, errorThrown){
+            console.log("FAIL");
+            console.log("xmlHttpRequest");
+            console.log(xmlHttpRequest);
+            console.log("textStatus");
+            console.log(textStatus);
+            console.log("errorThrown");
+            console.log(errorThrown);
+          }    
+        });
+      }
+      $(window).scrollTop(0)
+    });
+
+    $("#back").on("click", function() {
+      console.log("back BUTTON PRESSED");
+      var action =  "back";
+      var paragraph_id = {{paragraph_id}};
+      var history = {{session["annotation_history"] if session["annotation_history"] else [0]}};
+      if (history[0] == paragraph_id){
+        console.log(history[0]);
+        console.log(paragraph_id);
+        console.log("Already at end of history");
+        $("#back").fadeOut(500);
+        $("#back").fadeIn(500);
+        $("#back").fadeOut(300);
+        $("#back").fadeIn(300);
+      } else {      
+        $.ajax({
+          type: "POST",
+          contentType: "application/json;charset=utf-8",
+          traditional: "true",
+          data: JSON.stringify({action, paragraph_id}),
+          dataType: "json",
+          success: function(resp){
+            console.log("SUCCES")
+            document.write(resp.responseText) 
+            // location.reload(false)
+            }, 
+            error: function(xmlHttpRequest, textStatus, errorThrown){
+              console.log("FAIL")
+              console.log("xmlHttpRequest")
+              console.log(xmlHttpRequest)
+              console.log("textStatus")
+              console.log(textStatus)
+              console.log("errorThrown")
+              console.log(errorThrown)
+              // location.reload(false)
+              document.write(xmlHttpRequest.responseText)
+              document.close() 
+              // location.reload(false)
+            },
+        });
+      }
+      $(window).scrollTop(0)
+    });
+
+    $(".btn_category").on("click", function() {
+      var annotering_text = $(".pchosen").text();
+      var annotation = $(this).text();
+      var action = "annotate";
+      var paragraph_id = {{paragraph_id}};
+      console.log(annotering_text, annotation, action);
+      $.ajax({
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        traditional: "true",
+        data: JSON.stringify({annotering_text, annotation, action, paragraph_id}),
+        dataType: "json",
+        success: function(){
+          console.log("SUCCES")
+          location.reload(false)
+        }, 
+        error: function(){
+            console.log("something went wrong"),
+            location.reload(false)},
+        });
+      $(window).scrollTop(0)
+    });
+    $("#logout").on("click", function() {
+      if (confirm("Save annotation and LOG OUT?")){
+      var action = "logout"
+      $.ajax({
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        traditional: "true",
+        data: JSON.stringify({action}),
+        dataType: "json",
+        success: function(){
+          console.log("LOGGED OUT")
+          location.reload(false)
+        }, 
+        error: function(){
+            console.log("something went wrong"),
+            location.reload(false)},
+        })
+      ;}else{}
+      $(window).scrollTop(0)
+    });
+    $("#review").on("click", function() {
+      if (confirm("Save annotations and GO TO REVIEW PAGE?")){
+      var action = "review"
+      window.location.replace(window.location.origin.concat("/review"))
+      $.ajax({
+          type: "POST",
+          contentType: "application/json;charset=utf-8",
+          traditional: "true",
+          data: JSON.stringify({action}),
+          dataType: "json",
+          success: function(resp){
+            console.log("SUCCES")
+            document.write(resp.responseText) 
+            // location.reload(false)
+            }, 
+            error: function(xmlHttpRequest, textStatus, errorThrown){
+              console.log("FAIL")
+              console.log("xmlHttpRequest")
+              console.log(xmlHttpRequest)
+              console.log("textStatus")
+              console.log(textStatus)
+              console.log("errorThrown")
+              console.log(errorThrown)
+              // location.reload(false)
+              document.write(xmlHttpRequest.responseText)
+              document.close() 
+              // location.reload(false)
+            },
+        });
+      }else{}
+      $(window).scrollTop(0)
+    });
+
+  </script>
+</body>
+
+   
+
+
+</html>
+

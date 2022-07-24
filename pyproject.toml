@@ -4,3 +4,32 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "labton"
+version = "0.0.1"
+description = "Clean minimal tekst-annotation tool - with buildt in control of Inter-Annotator Agreement"
+readme = "README.md"
+authors = [{ name = "Morten Lantow", email = "MrLantow@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["annotation", "annotation tool", "text labeling", "labeling tool", "labeling", "annotation app", "labeling", "app", "text", "NLP", "active learning"]
+dependencies = [
+    "flask >= 2.1.2",
+    "flask-login >= 0.6.1",
+    "pandas",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = ["pip-tools", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/lantow/labton"
+
+[project.scripts]
+labton = "reader.__main__:main"
