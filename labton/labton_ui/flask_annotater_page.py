@@ -1,35 +1,25 @@
 from flask import Flask, send_from_directory
 from labton.labton_backend.action_handler import ActionHandler
-
+from labton.labton_backend.config_file_handler import ConfigHandler
+from labton.labton_backend.data_handler import DatabaseHandler
 from datetime import timedelta
 import sys
 import os
 from pathlib import Path
+import argparse
 
-################ VARIABLES - Move to yaml later ###################
-project_name = "Test_project"
 
-##########################################
-
-db_path = Path(f"labton/data/{project_name}.db")
-png_path = Path("labton/data/png_docs")
+################ VARIABLES ###################
+# project_name="Test_project"
+# path_db_folder = Path(f"labton/data")
+# path_db_file = f"{project_name}.db"
+# path_png = Path("labton/data/png_docs")
 
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=2)
 app.config["SESSION_COOKIE_SAMESITE"] = 'Strict'
 # set the secret key. keep this really secret:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-
-# ===========================SQLite DB ===========================
-here = Path(os.getcwd())
-db_file_path = here/db_path
-os.environ["SQLITE_CONN_STR"] = str(db_file_path)
-print(db_file_path, file=sys.stderr)
-
-if not os.path.exists(db_file_path):
-    from labton.labton_backend.data_handler import DatabaseHandler
-    with DatabaseHandler() as DH:
-        DH.create_database()
 
 @app.route('/', methods=["GET", 'POST'])
 def annotering():
@@ -53,7 +43,22 @@ def review():
 
 @app.route('/uploads/<path:filename>')
 def download_file(filename):
-    return send_from_directory(png_path, filename, as_attachment=True)
+    return send_from_directory(path_png, filename, as_attachment=True)
 
-def return_app(app=app):
+def return_app(app=app, project_name="Test_project"):
+    ch = ConfigHandler(project_name=project_name)
+    ch.load_project_config()
+    app.config.update(ch.config)
+    # ===========================SQLite DB ===========================
+    with app.app_context():
+        if not os.path.exists(app.config["path_db_file"]):
+            with DatabaseHandler() as DH:
+                    DH.create_database(app.config["data_source"], app.config["csv_sep"])
     return(app)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Runs app for annotation of text')
+    parser.add_argument('project_name', type=str, 
+                        help='Name of project mapping to the yaml config files')
+    args = parser.parse_args()
+    project_name = args['project_name']

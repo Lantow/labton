@@ -4,12 +4,10 @@ import pandas as pd
 class DatabaseHandler(SQliteConnection):
     def __init__(self):
         super().__init__()
-        self.path_csv = "labton/data/csv_text/Test_project.csv"
-        self.csv_sep = r"§"
         
-    def create_database(self):
-        df_text = pd.read_csv(self.path_csv, 
-                               sep=self.csv_sep, keep_default_na=False,
+    def create_database(self, data_source, csv_sep):
+        df_text = pd.read_csv(data_source, 
+                               sep=csv_sep, keep_default_na=False,
                                engine='python', skipinitialspace=True,
                                names=["paragraph_text", "document_name", "page_nr"])
         df_text["paragraph_id"] = df_text.index

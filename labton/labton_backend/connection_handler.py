@@ -1,16 +1,18 @@
 import sqlite3
 import os
+from flask import current_app
 
 class SQliteConnection(object):
     """automatic open and close"""    
     def __init__(self):
         self.conn = None 
         self.curr = None
-        self.db_file_path = os.getenv('SQLITE_CONN_STR')
+        
+        self.config = current_app.config
 
     def __enter__(self):
-        print("Opening connection")
-        self.conn = sqlite3.connect(self.db_file_path)
+        print(f"Opening connection to {self.config['path_db_file']}")
+        self.conn = sqlite3.connect(self.config["path_db_file"])
         self.curr = self.conn.cursor()
         return self    
         
