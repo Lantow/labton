@@ -1,20 +1,19 @@
-#from pathlib import Path
-import pkg_resources
 import yaml
 import os
+import pkg_resources
 
 class ConfigHandler:
-    def __init__(self, 
-                 data_source=pkg_resources.resource_filename(
-                     'labton', 'data/csv_text/Test_project.csv'),
-                 csv_sep = r"§",
-                 path_experiment="",
-                 classes=["Positive", "Negative", "Neutral", "Paradox"], 
-                 port=8080, 
-                 host='0.0.0.0',
-                 project_name = "Test_project",
-                 path_config_folder = "projects_config_files",
-                 path_db_folder = "projects_db_files"
+    def __init__(self,
+                data_source=pkg_resources.resource_filename(
+                    'labton', 'data/csv_text/Test_project.csv'),
+                csv_sep = r"§",
+                path_experiment="",
+                classes=["Positive", "Negative", "Neutral", "Paradox"], 
+                port=8080, 
+                host='0.0.0.0',
+                project_name = "Test_project",
+                path_config_folder = "projects_config_files",
+                path_db_folder = "projects_db_files"
                  ):
         
         self.config = {
@@ -58,10 +57,11 @@ class ConfigHandler:
         self.create_folders_if_not_exists()
         #TODO: see if existing yaml differs from ConfigHandler object 
         # configurations if so, prompt user to decide which one to keep
-        with open(self.config['path_config_file'], "w") as f:
+        with open(self.config['path_config_file'], "w+") as f:
             try:
                 yaml.safe_dump([self.config], f)
             except yaml.YAMLError as exc:
+                print("Write to YAML failed with this error:")
                 print(exc)
     
     def load_project_config(self):
@@ -72,4 +72,3 @@ class ConfigHandler:
             except yaml.YAMLError as exc:
                 print(exc)
 
-self = ConfigHandler()

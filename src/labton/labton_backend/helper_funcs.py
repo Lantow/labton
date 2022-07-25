@@ -1,11 +1,14 @@
 from functools import wraps
+from flask import Flask
 from labton.labton_backend.connection_handler import SQliteConnection
+from labton.labton_backend.config_file_handler import ConfigHandler
+from labton.labton_backend.data_handler import DatabaseHandler
 
 def with_sqlite_conn(f):
     """
     Wrapper to wrap around function that executes 
     SQLite code on the database whos path is defined 
-    in the system variable SQLITE_CONN_STR (aka. path_db_file)
+    in the config variable path_db_file
 
     Args:
         f (function): function that excecutes to SQL-db
@@ -72,3 +75,12 @@ def fecth_new_paragraph_id(session, post, move):
     else: 
         print("_"*70)
         print("THERE IS NO HISTORY")
+        
+def get_labton_data(project_name):
+    app = Flask(__name__)
+    ch = ConfigHandler(project_name=project_name)
+    ch.load_project_config()
+    app.config.update(ch.config)
+    with app.app_context():
+        with DatabaseHandler() as DH:
+            return(DH.load_annotations_to_pandas())

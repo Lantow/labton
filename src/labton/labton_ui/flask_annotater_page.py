@@ -3,10 +3,7 @@ from labton.labton_backend.action_handler import ActionHandler
 from labton.labton_backend.config_file_handler import ConfigHandler
 from labton.labton_backend.data_handler import DatabaseHandler
 from datetime import timedelta
-import sys
 import os
-from pathlib import Path
-import argparse
 
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=2)
@@ -38,16 +35,18 @@ def review():
 def download_file(filename):
     return send_from_directory(path_png, filename, as_attachment=True)
 
-def return_app(app=app, project_name="Test_project"):
-    ch = ConfigHandler(project_name=project_name)
-    ch.load_project_config()
-    app.config.update(ch.config)
-    # ===========================SQLite DB ===========================
+def create_db_if_not_exists(app):
     with app.app_context():
         if not os.path.exists(app.config["path_db_file"]):
             with DatabaseHandler() as DH:
                     DH.create_database(app.config["data_source"], 
                                        app.config["csv_sep"])
+
+def return_app(app=app, project_name="Test_project"):
+    ch = ConfigHandler(project_name=project_name)
+    ch.load_project_config()
+    app.config.update(ch.config)
+    create_db_if_not_exists(app)
     return(app)
 
 if __name__ == "__main__":
