@@ -8,13 +8,6 @@ import os
 from pathlib import Path
 import argparse
 
-
-################ VARIABLES ###################
-# project_name="Test_project"
-# path_db_folder = Path(f"labton/data")
-# path_db_file = f"{project_name}.db"
-# path_png = Path("labton/data/png_docs")
-
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=2)
 app.config["SESSION_COOKIE_SAMESITE"] = 'Strict'
@@ -53,7 +46,8 @@ def return_app(app=app, project_name="Test_project"):
     with app.app_context():
         if not os.path.exists(app.config["path_db_file"]):
             with DatabaseHandler() as DH:
-                    DH.create_database(app.config["data_source"], app.config["csv_sep"])
+                    DH.create_database(app.config["data_source"], 
+                                       app.config["csv_sep"])
     return(app)
 
 if __name__ == "__main__":

@@ -12,5 +12,3 @@ class App(ConfigHandler):
                 host=app.config["host"], 
                 port=app.config["port"])
         
-self = App()
-self.run()

@@ -1,10 +1,12 @@
-from pathlib import Path
+#from pathlib import Path
+import pkg_resources
 import yaml
 import os
 
 class ConfigHandler:
     def __init__(self, 
-                 data_source="labton/data/csv_text/Test_project.csv",
+                 data_source=pkg_resources.resource_filename(
+                     'labton', 'data/csv_text/Test_project.csv'),
                  csv_sep = r"§",
                  path_experiment="",
                  classes=["Positive", "Negative", "Neutral", "Paradox"], 
@@ -54,7 +56,8 @@ class ConfigHandler:
     
     def save_project_config(self):
         self.create_folders_if_not_exists()
-        #OBS!: should maybe make a switch here if the config already exists
+        #TODO: see if existing yaml differs from ConfigHandler object 
+        # configurations if so, prompt user to decide which one to keep
         with open(self.config['path_config_file'], "w") as f:
             try:
                 yaml.safe_dump([self.config], f)

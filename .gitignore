@@ -9,6 +9,7 @@ __pycache__/
 #Data
 *.db
 projects_config_files
+projects_db_files
 
 # Distribution / packaging
 .Python
@@ -80,6 +81,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb
 
 # IPython
 profile_default/

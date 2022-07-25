@@ -1,0 +1,5 @@
+# MANIFEST.in
+
+recursive-include src/labton/data *csv
+recursive-include src/labton/labton_ui/static *
+recursive-include src/labton/labton_ui/templates *.html
