@@ -7,7 +7,6 @@ class SQliteConnection(object):
     def __init__(self):
         self.conn = None 
         self.curr = None
-        
         self.config = current_app.config
 
     def __enter__(self):

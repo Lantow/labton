@@ -1,13 +1,13 @@
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=61.0.0",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "labton"
-version = "0.0.1"
+version = "0.1.0"
 description = "Clean minimal tekst-annotation tool - with buildt in control of Inter-Annotator Agreement"
 readme = "README.md"
 authors = [{ name = "Morten Lantow", email = "MrLantow@gmail.com" }]
@@ -22,6 +22,7 @@ dependencies = [
     "flask >= 2.1.2",
     "flask-login >= 0.6.1",
     "pandas",
+    "pyyaml >= 6.0"
 ]
 requires-python = ">=3.8"
 

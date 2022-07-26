@@ -20,21 +20,7 @@ class DatabaseHandler(SQliteConnection):
                             "verification CHAR(50)"
                         ]
         add_col = lambda col:  self.conn.execute(f"ALTER TABLE annotations ADD {col}")
-        for col in columns_to_add: add_col(col) 
-        
-        #  self.conn.execute( """CREATE TABLE sents
-        #          (
-        #              paragraph_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        #              paragraph_text VARCHAR(10),
-        #              doc_id CHAR(50),
-        #              paragraph_number INT,
-        #              correct_annotation CHAR(50),
-        #              who_annotated CHAR(50),
-        #              extract VARCHAR(10),
-        #              who_verified CHAR(50),
-        #              verification CHAR(50)
-        #          );""")
-    
+        for col in columns_to_add: add_col(col)     
     
     def fetch_from_db(self, columns, table, conditions=None, one=False):
         #Conditions must be string
@@ -65,5 +51,6 @@ class DatabaseHandler(SQliteConnection):
                     verification = ? 
         WHERE paragraph_id == ?;
         """, values)
-    
-    
+
+    def load_annotations_to_pandas(self):
+        return(pd.read_sql("SELECT * FROM annotations", self.conn))

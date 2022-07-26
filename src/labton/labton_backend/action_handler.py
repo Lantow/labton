@@ -79,8 +79,7 @@ class ActionHandler(DatabaseHandler):
                                         sent=paragraph_text,
                                         paragraph_id=paragraph_id,
                                         png_name= f"{document_name}000{page_nr}-{page_nr}.png",
-                                        #TODO: change classes so they are in yaml file
-                                        classes=["Positive", "Negative", "Neutral", "Paradox"])
+                                        classes=self.config["classes"])
         else:
             return redirect(url_for('login'))
 
