@@ -76,7 +76,7 @@ def fecth_new_paragraph_id(session, post, move):
         print("_"*70)
         print("THERE IS NO HISTORY")
         
-def get_labton_data(project_name):
+def get_labton_data(project_name="labton_default_project"):
     app = Flask(__name__)
     ch = ConfigHandler(project_name=project_name)
     ch.load_project_config()

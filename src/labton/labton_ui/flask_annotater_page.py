@@ -42,7 +42,7 @@ def create_db_if_not_exists(app):
                     DH.create_database(app.config["data_source"], 
                                        app.config["csv_sep"])
 
-def return_app(app=app, project_name="Test_project"):
+def return_app(app=app, project_name="labton_default_project"):
     ch = ConfigHandler(project_name=project_name)
     ch.load_project_config()
     app.config.update(ch.config)
