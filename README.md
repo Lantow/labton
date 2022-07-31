@@ -12,7 +12,7 @@ As such this library is for you if you:
 1. Need high quality of the labels (secure Inter-Annotator Agreement)
 2. Want a webpage that can be used to annotate your text both on PC and smartphone. 
 3. Prioritize getting up and running fast and efficiently (can be done in seconds if the data is ready)
-4. Actually wanted to use [prodigy](https://prodi.gy/) but need to do a proof a concept before spending the money;)
+4. Actually wanted to use [prodigy](https://prodi.gy/buy) but need to do a proof a concept before spending the money;)
 
 ## How does it work?
 
