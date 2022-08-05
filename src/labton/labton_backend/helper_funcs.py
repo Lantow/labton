@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import Flask
+from pandas import DataFrame
 from labton.labton_backend.connection_handler import SQliteConnection
 from labton.labton_backend.config_file_handler import ConfigHandler
 from labton.labton_backend.data_handler import DatabaseHandler
@@ -76,6 +77,9 @@ def fecth_new_paragraph_id(session, post, move):
         print("_"*70)
         print("THERE IS NO HISTORY")
         
+def create_dataframe_template():
+    return(DataFrame(columns=["paragraph_text", "document_name", "page_nr"]))
+    
 def get_labton_data(project_name="labton_default_project"):
     app = Flask(__name__)
     ch = ConfigHandler(project_name=project_name)

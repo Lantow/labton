@@ -61,7 +61,7 @@ class ConfigHandler:
             try:
                 yaml.safe_dump([self.config], f)
             except yaml.YAMLError as exc:
-                print("Write to YAML failed with this error:")
+                print("Write to YAML failed with the following error:")
                 print(exc)
     
     def load_project_config(self):
