@@ -17,7 +17,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["annotation", "annotation tool", "text labeling", "labeling tool", "labeling", "annotation app", "labeling", "app", "text", "NLP", "active learning"]
+keywords = ["annotation", "annotation tool", "text labeling", "labeling tool", "labeling", "annotation app", "labeling", "app", "text", "NLP", "active learning", "prodigy"]
 dependencies = [
     "flask >= 2.1.2",
     "flask-login >= 0.6.1",
