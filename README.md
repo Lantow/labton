@@ -14,6 +14,12 @@ As such this library is for you if you:
 3. Prioritize getting up and running fast and efficiently (can be done in seconds if the data is ready)
 4. Actually wanted to use [prodigy](https://prodi.gy/buy) but need to do a proof a concept before spending the money;)
 
+The following is a standart structure for the development of a NLP-project:
+![Review interface](documentation_imgs/labton_workflow_example.PNG) 
+
+Labton is developed such that there is a painless integreation from the stages before and after the data annotation step.
+This is done by making both data integration and data extration possible within the same environment ie. a python IDE such as Jupyter Notebook.
+
 ## How does it work?
 
 The **Python library** includes an easily deployable Flask web app that allows one to annotate the text in self defined classes. The app can be deployed directly from a [Terminal](#How-do-I-get-started-with-running-application-on-server-(access-from-internet)) or through a [Jupyter Notebook](#How-do-I-get-started-in-a-jupyter-notebook-(access-localy)) for lighter annotation tasks. The classes, and many other aspects of the app, are easily configurable either via python or through YAML configguration files. 
@@ -75,3 +81,7 @@ This will create a folder for the config files and a folder for data base files 
 You can now configure the YAML file found in the projects_config_files with the port, host, etc. that mathces your firewall configurations.
 
 TODO: Add easy functionality and walkthrough for how to setup a python anywhere app
+
+![annotation interface](documentation_imgs/labton_interface_example.PNG)
+
+![Review interface](documentation_imgs/labton_review_interface_example.PNG)
