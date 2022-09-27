@@ -3,81 +3,253 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 
   <style type="text/css">
-      body {
-        text-align: center;
-        background-size: 100%;
-        margin-right: 21vw;
-      }
-      h3 {
-        color: black;
-        font-family: "Courier New";
-      }
-      p {
-        display: inline-block;
-        margin-right: 15px;
-        font-family: "Times New Roman";
-        font-size: 2vw;
-        cursor: pointer
-      }
-      .pchosen {
-        text-shadow: 4px 4px teal;
-      }
-      .showimage{
-        /* set to None for toggle functionality */
-        /* OBS need to keep value as a session to set acros itterations */
-        display: inline ;
-      }
-      .btn_category{
-        font-size: 3vw;
-        margin-top: 0.5vh;
-        /* width: 10vw; */
-        /* height: 10vh; */
-        /* margin: 5vw; */
-      }
-      .btn_category:hover{
-        box-shadow: 40px -4px teal;
-      }
-      .sidebox{
-        height: 100%; /* Full-height: remove this if you want "auto" height */
-        width: 20vw; /* Set the width of the sidebar */
-        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-        z-index: 1; /* Stay on top */
-        top: 0; /* Stay at the top */
-        right: 0;
-        background-color: #111; /* Black */
-        overflow-x: hidden; /* Disable horizontal scroll */
-        padding-top: 20px;  
-      }
-      img{
-        width: 40vw;
-      }
-      .forwards{
-        float: right;
-      }
-      .backwards{
-        float: left;
-      }
-      #logout{
-        float:left;
-      }
-      #review{
-        float:right;
-      }
+      * {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      box-sizing: border-box;
+    }
+/* 
+    .login-form {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-weight: 400;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    
+
+    .form-group input {
+      display: block;
+      width: 100%;
+      height: 32px;
+      padding-inline: 12px;
+    }
+
+    .align-right {
+      text-align: right;
+    } */
+
+    .label {
+      font-weight: 600;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .text {
+      font-weight: 400;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .text--ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .layout {
+      display: flex;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .layout__left {
+      width: 100%;
+      max-width: 300px;
+      padding: 32px 24px;
+      flex-shrink: 0;
+      border-right: 1px solid grey;
+    }
+
+    .layout__right {
+      width: 100%;
+      flex: 1;
+      padding: 32px;
+    }
+    
+    .layout__left__group {
+      margin-bottom: 56px;
+    }
+
+    .layout-sidebar {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .layout-sidebar__body {
+      flex: 1;
+    }
+
+    .layout-sidebar__footer {
+      flex-shrink: 0;
+    }
+
+    .button {
+      height: 40px;
+      text-align: left;
+      padding-inline: 12px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .annotating-text {
+      max-width: 700px;
+      line-height: 1.6;
+      font-size: 30px;
+      font-weight: 400;
+      flex: 1;
+      overflow: auto;
+    }
+
+    .word {
+      cursor: pointer;
+      margin-right: .05em;
+    }
+
+    .word:not(.is-chosen):hover {
+      background-color: lightgrey;
+    }
+
+    .word.is-chosen {
+      background-color: black;
+      color: white;
+    }
+
+    .annotator {
+      display: flex;
+      height: 100%;
+    }
+
+    .annotator__text {
+      display: flex;
+      flex: 1;
+      padding-right: 32px;
+      flex-direction: column;
+    }
+
+    .annotator__actions {
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      max-width: 400px;
+      padding: 0 12px 0 48px;
+      position: relative;
+    }
+
+    .annotator__actions:after {
+      content: "";
+      position: absolute;
+      top: 42px;
+      bottom: 42px;
+      width: 1px;
+      height: calc(100% - 80px);
+      background-color: gray;
+      left: 0;
+    }
 
   </style>
   <script src="static/jquery.min.js"></script>
 
   <title>Annotation main page</title>
-  <button id="logout">Save annotations <br> and log out!</button>
+  <!-- <button id="logout">Save annotations <br> and log out!</button>
   <button id="review">Save annotations <br> and go to review page</button>
   <h3>You are annotating as: {{session["username"]}}</h3>  
-  <h100>Annotation history: {{session["annotation_history"]}}</h100>
+  <h100>Annotation history: {{session["annotation_history"]}}</h100> -->
 </head>
 <body>
+  <div class="layout">
+    <div class="layout__left">
+      <div class="layout-sidebar">
+        <div class="layout-sidebar__body">
+          <div class="layout__left__group">
+            <div class="label">
+              You are annotating as
+            </div>
+            <div class="text">
+              {{session["username"]}}
+            </div>
+          </div>
+    
+          <div class="layout__left__group">
+            <div class="label">
+              Annotation history (progress)
+            </div>
+            {% for sentence in session["annotation_history"] %}
+              <div class="text text--ellipsis" style="margin-bottom: 4px">
+                {{sentence}}
+              </div>
+            {% endfor %}
+          </div>
 
+        </div>
+        <div class="layout-sidebar__footer">
+          <button id="review" class="button" style="width: 100%; margin-bottom: 8px;">Save and review</button>
+          <button id="logout" class="button" style="width: 100%;">Save and log out</button>
+        </div>
+      </div>
+    </div>
+    <div class="layout__right">
+      <div class="annotator">
+        <div class="annotator__text">
+          {% if sent != None %}
+            <div style="margin-bottom: 24px;">
+              <div class="label">
+                Paragraph (Click words to extract)
+              </div>
+            </div>
+            <div class="annotating-text">
+              {% for word in sent.split() %}
+                <span data-word="true" class="word" data-chosen="off">{{word}}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              <div class="text">You've annotated everything.</div>
+            {% endif %}
+        </div>
+        <div class="annotator__actions">
+          <div style="margin-bottom: 24px;">
+            <div class="label">
+              Annotate text as
+            </div>
+          </div>
+          <div>
+            {% for class in classes %}
+              <button class="button" data-class-button="true" type="{{class}}" onclick style="width: 100%; margin-bottom: 8px;">{{class}}</button>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- 
   <div class="forwards">
     <button id="forward" title="Forward">
       <span class="glyphicon glyphicon-step-forward">
@@ -122,11 +294,11 @@
     <br><br>
   {% else %}
     <p data-chosen="off">LOOKS LIKE YOU ANNOTATED ALL THE PARAGRAPHS IN THE DATABASE</p>
-  {% endif %}
+  {% endif %} -->
 
   <script>
-    $("p").on('click', function() {
-      $(this).toggleClass('pchosen');
+    $('[data-word="true"]').on('click', function() {
+      $(this).toggleClass('is-chosen');
     });
     $(".img_pdf").on('click', function() {
       $("#img").toggleClass('showimage');
@@ -209,12 +381,13 @@
       $(window).scrollTop(0)
     });
 
-    $(".btn_category").on("click", function() {
-      var annotering_text = $(".pchosen").text();
+    $('[data-class-button="true"]').on("click", function() {
+      var annotering_text = [...$('[data-word="true"].is-chosen')].map(o => o.innerText).join(' ');
       var annotation = $(this).text();
       var action = "annotate";
       var paragraph_id = {{paragraph_id}};
-      console.log(annotering_text, annotation, action);
+      console.log(annotering_text, annotation, action, paragraph_id);
+      
       $.ajax({
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -225,9 +398,10 @@
           console.log("SUCCES")
           location.reload(false)
         }, 
-        error: function(){
-            console.log("something went wrong"),
-            location.reload(false)},
+        error: function(err){
+            console.log("something went wrong", err);
+            location.reload(false);
+          }
         });
       $(window).scrollTop(0)
     });
