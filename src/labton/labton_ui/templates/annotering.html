@@ -37,8 +37,6 @@
       margin-bottom: 16px;
     }
 
-    
-
     .form-group input {
       display: block;
       width: 100%;
@@ -175,6 +173,22 @@
       left: 0;
     }
 
+    .button__forward {
+      float: right;
+    }
+
+    .button_back {
+      float: left;
+    }
+
+    #forward {
+      font-size:30px
+    }
+
+    #back {
+      font-size:30px
+    }
+
   </style>
   <script src="static/jquery.min.js"></script>
 
@@ -197,7 +211,6 @@
               {{session["username"]}}
             </div>
           </div>
-    
           <div class="layout__left__group">
             <div class="label">
               Annotation history (progress)
@@ -208,7 +221,6 @@
               </div>
             {% endfor %}
           </div>
-
         </div>
         <div class="layout-sidebar__footer">
           <button id="review" class="button" style="width: 100%; margin-bottom: 8px;">Save and review</button>
@@ -233,7 +245,26 @@
             {% else %}
               <div class="text">You've annotated everything.</div>
             {% endif %}
+            <div class="navigation-buttons">
+              <div class="button__forward">
+                <button id="forward" title="Forward">
+                  <span >></span>
+                </button>
+                <button id="end" title="Foreste" style="display: none;">
+                  <span >>></span>
+                </button>
+              </div>
+              <div class="button__back">
+                <button id="begining" title="Første" style="display: none;">
+                  <span><<</span>       
+                </button>
+                <button id="back", title="Tilbage">
+                  <span><</span>
+                </button>
+              </div>
+            </div>
         </div>
+
         <div class="annotator__actions">
           <div style="margin-bottom: 24px;">
             <div class="label">
@@ -249,25 +280,10 @@
       </div>
     </div>
   </div>
-<!-- 
-  <div class="forwards">
-    <button id="forward" title="Forward">
-      <span class="glyphicon glyphicon-step-forward">
-    </button>
-    <button id="end" title="Foreste" style="display: none;">
-      <span class="glyphicon glyphicon-fast-forward"></span>
-    </button>
-  </div>
 
-  <div class="backwards">
-    <button id="begining" title="Første" style="display: none;">
-      <span class="glyphicon glyphicon-fast-backward">        
-    </button>
-    <button id="back", title="Tilbage">
-      <span class="glyphicon glyphicon-step-backward">
-    </button>
-  </div>
-  
+
+<!-- 
+ 
   {% if sent != None %}
     <h3>This paragraph has ID: {{paragraph_id}}</h3>
     <div>
@@ -323,6 +339,7 @@
           dataType: "json",
           success: function(resp){
             console.log("SUCCES")
+            document.write(resp.responseText) 
           }, 
           error: function(xmlHttpRequest, textStatus, errorThrown){
             console.log("FAIL");
@@ -332,12 +349,13 @@
             console.log(textStatus);
             console.log("errorThrown");
             console.log(errorThrown);
+            document.write(xmlHttpRequest.responseText)
+            document.close() 
           }    
         });
       }
       $(window).scrollTop(0)
     });
-
     $("#back").on("click", function() {
       console.log("back BUTTON PRESSED");
       var action =  "back";

@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "labton"
-version = "0.1.8"
+version = "0.1.9"
 description = "Clean minimal text-annotation tool - with buildt in control of Inter-Annotator Agreement"
 readme = "README.md"
 authors = [{ name = "Morten Lantow", email = "MrLantow@gmail.com" }]
@@ -24,7 +24,7 @@ dependencies = [
     "pandas",
     "pyyaml >= 6.0"
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 
 [project.optional-dependencies]
 dev = ["pip-tools", "pytest"]
@@ -34,3 +34,5 @@ Homepage = "https://github.com/lantow/labton"
 
 [project.scripts]
 labton = "reader.__main__:main"
+
+

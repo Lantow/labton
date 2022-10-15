@@ -105,9 +105,9 @@ class ActionHandler(DatabaseHandler):
                         }
                     </style>
                     </head>
-                    <h2>Forkert kode indtastet - <br> Hændelsen er logført<h2>
+                    <h2>You need to type in a name to annotate as<h2>
                     <form action="/login">
-                            <input type="submit" value="Prøv igen" />
+                            <input type="submit" value="Try again" />
                     </form> 
                 """
                 'Invalid username/password'
@@ -134,10 +134,12 @@ class ActionHandler(DatabaseHandler):
                     for values in zip(who_verified, verifications, paragraph_ids):
                         self.verify_annotation(values, "annotations")
                         print(values)
-
             paragraph_texts = self.fetch_from_db(["paragraph_id", "paragraph_text", "correct_annotation", "extract"], "annotations",
                                         "correct_annotation NOT NULL AND who_verified IS NULL " +\
                                         f"AND who_annotated <> '{session['username']}'", one=False)
+            #OBS! DataHandler.fetch_from_db returns (None, None, None, None) when nothing found in DB
+            #We avoid empty lines in the reviewpage with the following line of code
+            paragraph_texts =  [i for i in paragraph_texts if i]
             return render_template("review.html", enumerated_paragraph_texts = enumerate(paragraph_texts), 
                                                         total=len(paragraph_texts), session=session)
         else:

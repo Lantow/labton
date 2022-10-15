@@ -6,7 +6,7 @@ from datetime import timedelta
 import os
 
 app = Flask(__name__)
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=0)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_COOKIE_SAMESITE"] = 'Strict'
 # set the secret key. keep this really secret:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
