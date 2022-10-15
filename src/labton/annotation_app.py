@@ -32,7 +32,7 @@ class App(ConfigHandler):
         
         app = flask_annotater_page.return_app(
             project_name=self.config["project_name"])
-        app.run(debug=True, 
+        app.run(debug=False, 
                 host=app.config["host"], 
                 port=app.config["port"])
         
