@@ -3,7 +3,6 @@ from labton.labton_backend.config_file_handler import ConfigHandler
 from labton.labton_backend.data_handler import DatabaseHandler
 
 from flask import Flask
-from flask_ngrok import run_with_ngrok
 from pandas import DataFrame
 import sys
 import os
@@ -11,7 +10,6 @@ import os
 class App(ConfigHandler):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.is_run_in_colab = 'google.colab' in sys.modules
     
     def run(self):
         data_source = self.config["data_source"]
@@ -36,11 +34,7 @@ class App(ConfigHandler):
         
         app = flask_annotater_page.return_app(
             project_name=self.config["project_name"])
-        
-        if self.is_run_in_colab:
-           run_with_ngrok(app) 
-        
-        app.run(debug=False, 
-                host=app.config["host"], 
+                
+        app.run(host=app.config["host"], 
                 port=app.config["port"])
         
