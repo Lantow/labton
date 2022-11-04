@@ -10,6 +10,7 @@ import os
 class App(ConfigHandler):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.in_colab = 'google.colab' in sys.modules
     
     def run(self):
         data_source = self.config["data_source"]
@@ -31,10 +32,14 @@ class App(ConfigHandler):
                         DH.create_database(data_source, 
                                            self.config["csv_sep"],
                                            is_df=is_df)
-        
         app = flask_annotater_page.return_app(
             project_name=self.config["project_name"])
-                
-        app.run(host=app.config["host"], 
-                port=app.config["port"])
+        
+        if self.in_colab: 
+            run_with_ngrok(app) 
+            app.run()
+        else:
+            app.run(debug=False,
+                    host=app.config["host"], 
+                    port=app.config["port"])
         

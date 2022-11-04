@@ -8,8 +8,6 @@ import sys
 import os
 
 app = Flask(__name__)
-if 'google.colab' in sys.modules:
-           run_with_ngrok(app) 
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_COOKIE_SAMESITE"] = 'Strict'
 # set the secret key. keep this really secret:
