@@ -3,6 +3,7 @@ from labton.labton_backend.config_file_handler import ConfigHandler
 from labton.labton_backend.data_handler import DatabaseHandler
 
 from flask import Flask
+from flask_ngrok import run_with_ngrok
 from pandas import DataFrame
 import sys
 import os
