@@ -13,7 +13,9 @@ class ConfigHandler:
                 host='0.0.0.0',
                 project_name = "labton_default_project",
                 path_config_folder = "projects_config_files",
-                path_db_folder = "projects_db_files"
+                path_db_folder = "projects_db_files",
+                use_ngrok = False,
+                ngrok_auth_token = None
                  ):
         
         self.config = {
@@ -27,7 +29,9 @@ class ConfigHandler:
             "classes": classes, 
             "port": port, 
             "host": host,
-            "project_name": project_name
+            "project_name": project_name,
+            "use_ngrok": use_ngrok,
+            "ngrok_auth_token": ngrok_auth_token
             }
         
         self.config["path_config_file"] = f"{self.config['path_config_folder']}"+\
@@ -52,7 +56,7 @@ class ConfigHandler:
             f"{self.config['path_config_file']}"+\
             "make sure the self.config dict is correct and run "+\
             "self.save_project_config before running app"
-    
+            
     def save_project_config(self):
         self.create_folders_if_not_exists()
         #TODO: see if existing yaml differs from ConfigHandler object 
