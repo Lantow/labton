@@ -3,6 +3,7 @@ from labton.labton_backend.action_handler import ActionHandler
 from labton.labton_backend.config_file_handler import ConfigHandler
 from labton.labton_backend.data_handler import DatabaseHandler
 from datetime import timedelta
+import sys
 import os
 
 app = Flask(__name__)
