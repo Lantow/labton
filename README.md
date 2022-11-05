@@ -1,4 +1,4 @@
-# labton - 0.1.8
+# labton
 
 ## What's this then?
 **Labton** (**LAB**eling **TO**ol **N**ow!) is an OpenSource annotation tool for **creating text data sets for machine learning models**. The length of the paragraphs to annotate is defined by you. Labton also allows for extraction of words in the given pargraph - thus the labels of the paragraph can be a word from the paragraph. You can also use Labton to help control Inter-Annotator Agreement (ie. securing that your annotaters agree on the defined classes).
