@@ -73,7 +73,7 @@ class ConfigHandler:
                 print("Write to YAML failed with the following error:")
                 print(exc)
     
-    def load_project_config(self):
+    def load_and_merge_project_config(self):
         self.ensure_config_file_exists()
         with open(self.config['path_config_file'], "r") as f:
             try:
