@@ -18,7 +18,7 @@ class ConfigHandler:
                 ngrok_auth_token = None
                  ):
         
-        self.config = {
+        self.config_default = {
             "data_source": data_source, 
             "csv_sep": csv_sep,
             "path_experiment": path_experiment,
@@ -34,12 +34,14 @@ class ConfigHandler:
             "ngrok_auth_token": ngrok_auth_token
             }
         
-        self.config["path_config_file"] = f"{self.config['path_config_folder']}"+\
-                                            f"/{self.config['config_file_name']}"
+        self.config_default["path_config_file"] = f"{self.config_default['path_config_folder']}"+\
+                                            f"/{self.config_default['config_file_name']}"
                                             
-        self.config["path_db_file"] = f"{os.getcwd()}"+\
-                                        f"/{self.config['path_db_folder']}"+\
-                                        f"/{self.config['db_file_name']}"
+        self.config_default["path_db_file"] = f"{os.getcwd()}"+\
+                                        f"/{self.config_default['path_db_folder']}"+\
+                                        f"/{self.config_default['db_file_name']}"
+                                        
+        self.config = self.config_default
     
     def create_folders_if_not_exists(self):
         #Make folder for config files of different projects
@@ -50,12 +52,15 @@ class ConfigHandler:
             os.mkdir(self.config["path_db_folder"])
     
     def ensure_config_file_exists(self):
-        #OBS! maybe automate this same as create_database in return_app
-        assert os.path.exists(self.config["path_config_file"]),\
-            "there must be a config file at this location:\n "+\
-            f"{self.config['path_config_file']}"+\
-            "make sure the self.config dict is correct and run "+\
-            "self.save_project_config before running app"
+        if not os.path.exists(self.config["path_config_file"]):
+            self.save_project_config()
+        
+        # #OBS! maybe automate this same as create_database in return_app
+        # assert os.path.exists(self.config["path_config_file"]),\
+        #     "there must be a config file at this location:\n "+\
+        #     f"{self.config['path_config_file']}"+\
+        #     "make sure the self.config dict is correct and run "+\
+        #     "self.save_project_config before running app"
             
     def save_project_config(self):
         self.create_folders_if_not_exists()
@@ -73,6 +78,7 @@ class ConfigHandler:
         with open(self.config['path_config_file'], "r") as f:
             try:
                 self.config = yaml.safe_load(f)[0]
+                self.config_default.update(self.config)
             except yaml.YAMLError as exc:
                 print(exc)
 

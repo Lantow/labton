@@ -10,10 +10,16 @@ import os
 
 class App(ConfigHandler):
     def __init__(self, **kwargs):
+        #Only overwrite default kwargs that are not None
+        kwargs = {k:v for k,v in kwargs.items() if v}
+        print(kwargs)
         super().__init__(**kwargs)
+        #Loads config from file if it exists
+        self.load_project_config()
+        #
         if 'google.colab' in sys.modules:
             self.config["ngrok_auth_token"] = True
-    
+        
     def run(self):
         data_source = self.config["data_source"]
         is_df = False
