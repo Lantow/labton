@@ -1,4 +1,4 @@
 flask
-flask-login
 pandas
 pyyaml
+flask_ngrok
