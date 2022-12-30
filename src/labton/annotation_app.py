@@ -14,9 +14,7 @@ class App(ConfigHandler):
         kwargs = {k:v for k,v in kwargs.items() if v}
         print(kwargs)
         super().__init__(**kwargs)
-        #Loads config from file if it exists
-        self.load_project_config()
-        #
+        
         if 'google.colab' in sys.modules:
             self.config["ngrok_auth_token"] = True
         
