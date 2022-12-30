@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "labton"
-version = "0.2.3"
+version = "0.2.4"
 description = "Clean minimal text-annotation tool - with buildt in control of Inter-Annotator Agreement"
 readme = "README.md"
 authors = [{ name = "Morten Lantow", email = "MrLantow@gmail.com" }]
