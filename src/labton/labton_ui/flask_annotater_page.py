@@ -45,7 +45,7 @@ def create_db_if_not_exists(app):
 
 def return_app(app=app, project_name="labton_default_project"):
     ch = ConfigHandler(project_name=project_name)
-    ch.load_project_config()
+    ch.load_and_merge_project_config()
     app.config.update(ch.config)
     #create_db_if_not_exists(app)
     return(app)
