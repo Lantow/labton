@@ -83,7 +83,7 @@ def create_dataframe_template():
 def get_labton_data(project_name="labton_default_project"):
     app = Flask(__name__)
     ch = ConfigHandler(project_name=project_name)
-    ch.load_project_config()
+    ch.load_and_merge_project_config()
     app.config.update(ch.config)
     with app.app_context():
         with DatabaseHandler() as DH:
