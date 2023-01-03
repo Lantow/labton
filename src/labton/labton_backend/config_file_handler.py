@@ -8,7 +8,7 @@ class ConfigHandler:
                     'labton', 'data/csv_text/labton_default_project.csv'),
                 csv_sep = r"§",
                 path_experiment="",
-                classes=["Positive", "Negative", "Neutral", "Paradox"], 
+                classes=["Interest-rates", "Shipping", "Money-exchange", "Trade-in-goods"], 
                 port=8080, 
                 host='0.0.0.0',
                 project_name = "labton_default_project",

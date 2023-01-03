@@ -11,7 +11,7 @@ import os
 class App(ConfigHandler):
     def __init__(self, **kwargs):
         #Only overwrite default kwargs that are not None
-        kwargs = {k:v for k,v in kwargs.items() if v}
+        kwargs = {k:v for k,v in kwargs.items() if not v is None}
         super().__init__(**kwargs)
         if 'google.colab' in sys.modules:
             self.config["ngrok_auth_token"] = True

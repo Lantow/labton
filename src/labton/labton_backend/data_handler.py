@@ -10,6 +10,9 @@ class DatabaseHandler(SQliteConnection):
         if is_df:
             df_text = data_source
         else:
+            #TODO: make it possible to read in csv with variable number of columns
+            #also make it possible to read in csv with different column order and names
+            #TODO: change paragraph_text to annotaion_text, change document_name to identifier1 and page_nr to identifer2
             df_text = pd.read_csv(data_source, 
                                 sep=csv_sep, keep_default_na=False,
                                 engine='python', skipinitialspace=True,
