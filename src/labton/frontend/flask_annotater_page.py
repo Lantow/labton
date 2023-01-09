@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
-from labton.labton_backend.action_handler import ActionHandler
-from labton.labton_backend.config_file_handler import ConfigHandler
-from labton.labton_backend.data_handler import DatabaseHandler
+from labton.backend.action_handler import ActionHandler
+from labton.backend.config_file_handler import ConfigHandler
+from labton.backend.data_handler import DatabaseHandler
 from datetime import timedelta
 import sys
 import os

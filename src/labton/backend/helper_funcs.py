@@ -1,9 +1,9 @@
 from functools import wraps
 from flask import Flask
 from pandas import DataFrame
-from labton.labton_backend.connection_handler import SQliteConnection
-from labton.labton_backend.config_file_handler import ConfigHandler
-from labton.labton_backend.data_handler import DatabaseHandler
+from labton.backend.connection_handler import SQliteConnection
+from labton.backend.config_file_handler import ConfigHandler
+from labton.backend.data_handler import DatabaseHandler
 
 def with_sqlite_conn(f):
     """
@@ -39,7 +39,6 @@ def update_history(session, paragraph_id):
 
     else: 
         session["annotation_history"] = []
-    print(session["annotation_history"])
     return session
 
 def fecth_new_paragraph_id(session, post, move):
@@ -51,7 +50,6 @@ def fecth_new_paragraph_id(session, post, move):
     current_id = post["paragraph_id"]
     session["history_dive"] = True
     if history:
-        # print(history)
         #Hvis sætningen er del af sæssions historien
         #Altså hvis det er en sætning, der har været set på før
         idx = history.index(current_id) if current_id in history else -1
@@ -66,19 +64,13 @@ def fecth_new_paragraph_id(session, post, move):
                 pass
             elif move == "begining":
                 pass
-        print("HISTORY")
-        print(history)
-        print("INDEX")
-        print(idx)
         new_paragraph_id = history[idx]
-        print(new_paragraph_id)
         return(new_paragraph_id)
     else: 
-        print("_"*70)
-        print("THERE IS NO HISTORY")
+        pass
         
 def create_dataframe_template():
-    return(DataFrame(columns=["paragraph_text", "document_name", "page_nr"]))
+    return(DataFrame(columns=["text", "id1", "id2"]))
     
 def get_labton_data(project_name="labton_default_project"):
     app = Flask(__name__)

@@ -58,7 +58,7 @@ You can start the server again and it will continue where you left from.
 
 At any point in the process you can extract a copy of the data as a pandas.DataFrame like so:
 
-**`from labton.labton_backend.helper_funcs import get_labton_data`**<br/>
+**`from labton.backend.helper_funcs import get_labton_data`**<br/>
 **`df_labeled_data = get_labton_data()`**
 
 If you have given a your project a custom `project_name` hand this to the `get_labton_data` function in order to load the data from the correct database file.

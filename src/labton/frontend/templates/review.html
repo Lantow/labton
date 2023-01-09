@@ -66,14 +66,14 @@
   <table>
   <tr>
     <th id="id">paragraph_id</th>
-    <th id="sent">paragraph_text</th>
+    <th id="sent">text</th>
     <th>Annotation</th>
     <th>Extract</th>
     <th>Correct</th>
     <th>Unclear</th>
     <th>Not correct</th>
   </tr>
-  {% for i, row in enumerated_paragraph_texts %}
+  {% for i, row in enumerated_annotated_texts %}
     <td id="id">{{row[0]}}</td>
     <td id="sent">{{row[1]}}</td>
     <td>{{row[2]}}</td>
@@ -88,7 +88,7 @@
     <br><br>
     Antal kontrolerede:<br> 
     <p id="n_kontrolerede">0</p>
-    Antal paragraph_texts i alt:<br> 
+    Antal annotated_texts i alt:<br> 
     <p>{{total}}</p>
   </div>
   </table>

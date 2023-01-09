@@ -1,6 +1,6 @@
-from labton.labton_ui import flask_annotater_page
-from labton.labton_backend.config_file_handler import ConfigHandler
-from labton.labton_backend.data_handler import DatabaseHandler
+from labton.frontend import flask_annotater_page
+from labton.backend.config_file_handler import ConfigHandler
+from labton.backend.data_handler import DatabaseHandler
 
 from flask import Flask
 from pyngrok import ngrok
@@ -21,8 +21,8 @@ class App(ConfigHandler):
         is_df = False
         
         if isinstance(data_source, DataFrame):
-            assert "paragraph_text" in data_source.columns,\
-                "DataFrame must as a minimum contain the column 'paragraph_text'"
+            assert "text" in data_source.columns,\
+                "DataFrame must as a minimum contain the column 'text'"
             self.config["data_source"] = "local_data_frame"
             is_df = True
         

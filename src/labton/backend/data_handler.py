@@ -1,4 +1,4 @@
-from labton.labton_backend.connection_handler import SQliteConnection
+from labton.backend.connection_handler import SQliteConnection
 import pandas as pd
 
 
@@ -12,11 +12,11 @@ class DatabaseHandler(SQliteConnection):
         else:
             #TODO: make it possible to read in csv with variable number of columns
             #also make it possible to read in csv with different column order and names
-            #TODO: change paragraph_text to annotaion_text, change document_name to identifier1 and page_nr to identifer2
+            #TODO: change text to annotaion_text, change id1 to identifier1 and id2 to identifer2
             df_text = pd.read_csv(data_source, 
                                 sep=csv_sep, keep_default_na=False,
                                 engine='python', skipinitialspace=True,
-                                names=["paragraph_text", "document_name", "page_nr"])
+                                names=["text", "id1", "id2"])
         df_text["paragraph_id"] = df_text.index
         df_text.to_sql(name = "annotations", con = self.conn)
         columns_to_add = [
